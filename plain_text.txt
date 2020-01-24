@@ -1,0 +1,5 @@
+Code Name: alien-test
+Blood Color: yellow
+No. Of Antennas: 44
+No. Of Legs: 33
+Home Planet: old planet
