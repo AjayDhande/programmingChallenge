@@ -15,19 +15,40 @@ puts "Please enter number of legs:"
 noOfLegs = gets.chomp
 puts "Please enter name of old home planet:"
 homePlanet = gets.chomp
+str = "Code Name: #{codeName}\nBlood Color: #{bloodColor}\nNo. Of Antennas: #{noOfAntennas}\nNo. Of Legs: #{noOfLegs}\nHome Planet: #{homePlanet}"
+puts "Would you like to export text in available format?"
+puts "type 'yes' or 'no'"
+type = gets.chomp
+plug = Plugin.new
 
-plug = Plugin.new 
-puts "Export details as following:"
-plug.plugin_text.each_with_index do |txt, index|
-  puts "#{index+1}. #{txt}"
+def export_available_format(plug, str)
+  puts "Export details as following:"
+  plug.plugin_text.each_with_index do |txt, index|
+    puts "#{index+1}. #{txt}"
+  end
+  exportFormat = gets.chomp.to_i
+
+  case exportFormat
+  when 1..plug.plugin_methods.count
+    plug.method("#{plug.plugin_methods[exportFormat-1]}").call(str)
+  else
+    puts "You have entered invalid export format."
+  end  
 end
 
-str = "Code Name: #{codeName}\nBlood Color: #{bloodColor}\nNo. Of Antennas: #{noOfAntennas}\nNo. Of Legs: #{noOfLegs}\nHome Planet: #{homePlanet}"
-exportFormat = gets.chomp.to_i
+def new_export_format(plug, str)
+  puts "Enter new format?"
+  puts "Formats examples: csv, doc, xlxs, xls, docx"
+  otherFormat = gets.chomp
+  plug.other_format str, otherFormat
+end
 
-case exportFormat
-when 1..plug.plugin_methods.count
-  plug.method("#{plug.plugin_methods[exportFormat-1]}").call(str)
+
+case type
+when 'yes'
+  export_available_format(plug, str)
+when 'no'
+  new_export_format(plug, str)
 else
-  puts "You have entered invalid export format."
+  puts "Invalid Input!!!"
 end
